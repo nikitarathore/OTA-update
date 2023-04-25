@@ -1,0 +1,41 @@
+MACHINE ??= "zedboard-zynq7"
+
+#To intergrate mender
+
+IMAGE_INSTALL_append += "kernel-image kernel-devicetree"
+
+
+# Enable systemd for Mender
+DISTRO_FEATURES_append = " systemd"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+VIRTUAL-RUNTIME_initscripts = ""
+
+INHERIT += "mender-full"
+
+MENDER_ARTIFACT_NAME = "test_22mar_1739"
+
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+
+# To get your tenant token:
+#    - log in to https://hosted.mender.io
+#    - click your email at the top right and then "My organization"
+#    - press the "COPY TO CLIPBOARD"
+#    - assign content of clipboard to MENDER_TENANT_TOKEN
+#
+MENDER_SERVER_URL = "https://hosted.mender.io"
+MENDER_TENANT_TOKEN = ""
+
+# To support delta update
+
+IMAGE_FEATURES_append = " read-only-rootfs"
+
+IMAGE_INSTALL_append = " mender-binary-delta"
+LICENSE_FLAGS_WHITELIST_append = " commercial_mender-binary-delta"
+FILESEXTRAPATHS_prepend_pn-mender-binary-delta := "${HOME}/mender-binary-delta-1.2.1/:"
+
+IMAGE_INSTALL_append = " modeldeltaupdate"
+
+# This really saves a lot of disk space!
+INHERIT += "rm_work"
