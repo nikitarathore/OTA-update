@@ -1,0 +1,8 @@
+Name=en*
+KernelCommandLine=!nfsroot
+
+[Network]
+DHCP=v4
+
+[DHCPv4]
+UseHostname=false
