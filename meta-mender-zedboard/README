@@ -33,10 +33,14 @@ git clone https://github.com/nikitarathore/OTA-update.git
 
 source oe-init-build-env
 
-add the layers -
+add the layers in conf/bblayers.conf -
 bitbake-layers add-layer ../meta-openembedded/meta-oe
+bitbake-layers add-layer ../meta-openembedded/meta-python
+bitbake-layers add-layer ../meta-openembedded/meta-networking
 bitbake-layers add-layer ../meta-mender/meta-mender-core
+bitbake-layers add-layer ../meta-mender/meta-mender-commercial 
 bitbake-layers add-layer ../meta-mender-zedboard
+
 
 To build the image-
 bitbake core-image-base
