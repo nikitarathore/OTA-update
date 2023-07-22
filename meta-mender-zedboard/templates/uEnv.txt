@@ -1,10 +1,13 @@
 machine_name=zedboard-zynq7
 kernel_image=boot/uImage
 kernel_load_address=0x2080000
-devicetree_image=boot/zynq-zed.dtb
+devicetree_image=boot/system-top.dtb
 devicetree_load_address=0x2000000
-bootargs=earlyprintk console=ttyPS0,115200 root=${mender_kernel_root} rw rootwait
+loadbit_addr=0x100000
+fpga_img=boot/design_1_wrapper.bin
+bootargs=earlyprintk console=ttyPS0,115200 root=${mender_kernel_root} ro rootwait
+set_fpgaload=load ${mender_uboot_root} ${loadbit_addr} ${fpga_img} && fpga load 0 ${loadbit_addr} ${filesize}
 loadkernel=load ${mender_uboot_root} ${kernel_load_address} ${kernel_image}
 loaddtb=load ${mender_uboot_root} ${devicetree_load_address} ${devicetree_image}
-bootkernel=run loadkernel && run loaddtb && bootm ${kernel_load_address} - ${devicetree_load_address}
-uenvcmd= run bootkernel && run mender_setup
+bootkernel=run loadkernel && run loaddtb && run set_fpgaload && bootm ${kernel_load_address} - ${devicetree_load_address}
+uenvcmd=run bootkernel && run mender_setup

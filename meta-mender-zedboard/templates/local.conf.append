@@ -35,7 +35,9 @@ IMAGE_INSTALL_append = " mender-binary-delta"
 LICENSE_FLAGS_WHITELIST_append = " commercial_mender-binary-delta"
 FILESEXTRAPATHS_prepend_pn-mender-binary-delta := "${HOME}/mender-binary-delta-1.2.1/:"
 
-IMAGE_INSTALL_append = " modeldeltaupdate"
+IMAGE_INSTALL_append += " modeldeltaupdate"
+
+IMAGE_INSTALL_append += " fpgabin"
 
 # This really saves a lot of disk space!
 INHERIT += "rm_work"
