@@ -45,4 +45,14 @@ bitbake-layers add-layer ../meta-mender-zedboard
 To build the image-
 bitbake core-image-base
 
-This will generate the disk image (.sdimg) and a .mender rootfs file.
+This will generate the disk image (.sdimg) and a .mender rootfs file. The Yocto Linux and OTA update functionality image
+is stored on the SD card. The board accesses it via the SD card reader. The image contains four partitions - BOOT, rootfs A, rootfs B, and a Data partition.
+The code and the FPGA bitstream which neede to be updated are stored within the file system. During each system update, the new file system is sent over the
+network.
+
+To Performe the Wireless Software Update -
+1) Host setup: Start a HTTP server: python -m http.server
+2) Target setup: assign the server IP address and updated file:
+    mender -install http://10.5.2.xx:8000/releaseV01.mender
+3) reboot the device and commit the update if device is updated successfully with the new image.
+
